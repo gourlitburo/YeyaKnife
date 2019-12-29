@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 
 public class PlayerHandler extends Handler {
     public PlayerHandler() {
+        final String empty = "";
+
         this.register("displayname", (String x, String[] args) -> {
             if (args.length > 0)
                 p(x).setDisplayName(Main.colorize(args[0]));
@@ -26,7 +28,7 @@ public class PlayerHandler extends Handler {
 
         this.register("kickplayer", (String x, String[] args) -> {
             p(x).kickPlayer(args.length > 0 ? String.join(" ", args) : null);
-            return "";
+            return empty;
         });
 
         this.register("statistic", (String x, String[] args) -> {
@@ -65,18 +67,17 @@ public class PlayerHandler extends Handler {
             String title = Main.colorize(args.length > 0 ? args[0] : "");
             String subtitle = Main.colorize(args.length > 1 ? args[1] : "");
             p(x).sendTitle(title, subtitle, 10, 70, 20);
-            return "";
+            return empty;
         });
     }
 
     @Override
-    public String handle(String[] command) {
-        String cmd = command[0].toLowerCase();
-        if (!this.map.containsKey(cmd)) return null;
-        if (command.length < 1) return "Error: No player specified.";
-
-        String[] args = Arrays.copyOfRange(command, 2, command.length);
-        return this.map.get(cmd).apply(command[1], args);
+    public String handle(String cmd, String[] args) {
+        if (args.length < 1) return "Error: No player specified.";
+        return this.map.get(cmd).apply(
+            args[0],
+            Arrays.copyOfRange(args, 1, args.length)
+            );
     }
 
     private Player p(String name) {

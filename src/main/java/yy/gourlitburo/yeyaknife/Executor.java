@@ -14,6 +14,7 @@ public class Executor implements CommandExecutor {
 
     public Executor() {
         this.handlers.put("player", new PlayerHandler());
+        this.handlers.put("server", new ServerHandler());
     }
 
     @Override
@@ -26,8 +27,14 @@ public class Executor implements CommandExecutor {
         if (handler == null) {
             sender.sendMessage(String.format("Error: unknown command '%s'.", handlerName));
         } else {
-            String result = handler.handle(Arrays.copyOfRange(args, 1, args.length));
-            if (result == null) sender.sendMessage("Error: unknown subcommand.");
+            String subcommand = args[1].toLowerCase();
+            if (!handler.hasSubcommand(subcommand)) {
+                sender.sendMessage(String.format("Error: unknown subcommand '%s'.", subcommand));
+                return true;
+            };
+
+            String result = handler.handle(subcommand, Arrays.copyOfRange(args, 2, args.length));
+            if (result == null) sender.sendMessage("Error: missing arguments.");
             else if (result.length() > 0) sender.sendMessage(result);
         }
         return true;
@@ -39,6 +46,6 @@ public class Executor implements CommandExecutor {
 
     public Set<String> getSubcommands(String handlerName) {
         if (!this.handlers.containsKey(handlerName)) return null;
-        return this.handlers.get(handlerName).getCommands();
+        return this.handlers.get(handlerName).getSubcomands();
     }
 }

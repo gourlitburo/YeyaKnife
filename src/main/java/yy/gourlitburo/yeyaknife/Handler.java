@@ -8,7 +8,7 @@ import java.util.function.BiFunction;
 public abstract class Handler {
     protected Map<String, BiFunction<String, String[], String>> map = new HashMap<>();
     
-    public String handle(String[] args) {
+    public String handle(String cmd, String[] args) {
         return null;
     }
 
@@ -19,7 +19,11 @@ public abstract class Handler {
         return true;
     }
 
-    public Set<String> getCommands() {
+    public Set<String> getSubcomands() {
         return this.map.keySet();
+    }
+
+    public boolean hasSubcommand(String subcommand) {
+        return this.map.containsKey(subcommand);
     }
 }
