@@ -28,7 +28,8 @@ public class ServerHandler extends Handler {
         });
 
         this.register("broadcastmessage", (String x, String[] args) -> {
-            Bukkit.broadcastMessage(String.join(" ", args));
+            String msg = Main.colorize(String.join(" ", args));
+            Bukkit.broadcastMessage(msg);
             return empty;
         });
 
