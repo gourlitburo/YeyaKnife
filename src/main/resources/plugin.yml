@@ -1,6 +1,6 @@
 main: yy.gourlitburo.yeyaknife.Main
 name: YeyaKnife
-version: 0.0.0
+version: 0.0.1
 api-version: 1.15
 author: Zack Guard
 description: A command line interface to the Spigot API.
@@ -8,7 +8,7 @@ commands:
   yeyachat:
     aliases: [yk]
     description: Use YeyaKnife.
-    usage: "Usage: /yk <command> <subcommand> [<arguments>]"
+    usage: "Usage: /yk <cmd> <subcmd> [<args>]"
     permission: yeyaknife.use
 permissions:
   yeyaknife.use:
