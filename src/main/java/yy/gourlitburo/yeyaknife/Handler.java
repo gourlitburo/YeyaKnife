@@ -5,16 +5,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
 
-import org.bukkit.entity.Player;
-
 public abstract class Handler {
-    protected Map<String, BiFunction<Player, String[], String>> map = new HashMap<>();
+    protected Map<String, BiFunction<String, String[], String>> map = new HashMap<>();
     
     public String handle(String[] args) {
         return null;
     }
 
-    public boolean register(String name, BiFunction<Player, String[], String> func) {
+    public boolean register(String name, BiFunction<String, String[], String> func) {
         if (this.map.containsKey(name)) return false;
 
         this.map.put(name, func);

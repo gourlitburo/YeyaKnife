@@ -8,63 +8,63 @@ import org.bukkit.entity.Player;
 
 public class PlayerHandler extends Handler {
     public PlayerHandler() {
-        this.register("displayname", (Player player, String[] args) -> {
+        this.register("displayname", (String x, String[] args) -> {
             if (args.length > 0)
-                player.setDisplayName(Main.colorize(args[0]));
-            return player.getDisplayName();
+                p(x).setDisplayName(Main.colorize(args[0]));
+            return p(x).getDisplayName();
         });
 
-        this.register("playerlistname", (Player player, String[] args) -> {
+        this.register("playerlistname", (String x, String[] args) -> {
             if (args.length > 0)
-                player.setPlayerListName(Main.colorize(args[0]));
-            return player.getPlayerListName();
+                p(x).setPlayerListName(Main.colorize(args[0]));
+            return p(x).getPlayerListName();
         });
 
-        this.register("address", (Player player, String[] args) -> {
-            return player.getAddress().toString();
+        this.register("address", (String x, String[] args) -> {
+            return p(x).getAddress().toString();
         });
 
-        this.register("kickplayer", (Player player, String[] args) -> {
-            player.kickPlayer(args.length > 0 ? String.join(" ", args) : null);
+        this.register("kickplayer", (String x, String[] args) -> {
+            p(x).kickPlayer(args.length > 0 ? String.join(" ", args) : null);
             return "";
         });
 
-        this.register("statistic", (Player player, String[] args) -> {
+        this.register("statistic", (String x, String[] args) -> {
             Statistic statistic = Statistic.valueOf(args[0]);
-            return Integer.toString(player.getStatistic(statistic));
+            return Integer.toString(p(x).getStatistic(statistic));
         });
 
-        this.register("playertime", (Player player, String[] args) -> {
-            return Long.toString(player.getPlayerTime());
+        this.register("playertime", (String x, String[] args) -> {
+            return Long.toString(p(x).getPlayerTime());
         });
 
-        this.register("giveexp", (Player player, String[] args) -> {
-            player.giveExp(Integer.valueOf(args[0]));
-            return Integer.toString(player.getTotalExperience());
+        this.register("giveexp", (String x, String[] args) -> {
+            p(x).giveExp(Integer.valueOf(args[0]));
+            return Integer.toString(p(x).getTotalExperience());
         });
 
-        this.register("giveexplevels", (Player player, String[] args) -> {
-            player.giveExpLevels(Integer.valueOf(args[0]));
-            return Integer.toString(player.getLevel());
+        this.register("giveexplevels", (String x, String[] args) -> {
+            p(x).giveExpLevels(Integer.valueOf(args[0]));
+            return Integer.toString(p(x).getLevel());
         });
 
-        this.register("level", (Player player, String[] args) -> {
+        this.register("level", (String x, String[] args) -> {
             if (args.length > 0)
-                player.setLevel(Integer.valueOf(args[0]));
-            return Integer.toString(player.getLevel());
+                p(x).setLevel(Integer.valueOf(args[0]));
+            return Integer.toString(p(x).getLevel());
         });
 
-        this.register("totalexperience", (Player player, String[] args) -> {
+        this.register("totalexperience", (String x, String[] args) -> {
             if (args.length > 0)
-                player.setTotalExperience(Integer.valueOf(args[0]));
-            return Integer.toString(player.getTotalExperience());
+                p(x).setTotalExperience(Integer.valueOf(args[0]));
+            return Integer.toString(p(x).getTotalExperience());
         });
 
         // TODO: allow multi-word arguments using ""
-        this.register("sendtitle", (Player player, String[] args) -> {
+        this.register("sendtitle", (String x, String[] args) -> {
             String title = Main.colorize(args.length > 0 ? args[0] : "");
             String subtitle = Main.colorize(args.length > 1 ? args[1] : "");
-            player.sendTitle(title, subtitle, 10, 70, 20);
+            p(x).sendTitle(title, subtitle, 10, 70, 20);
             return "";
         });
     }
@@ -75,8 +75,11 @@ public class PlayerHandler extends Handler {
         if (!this.map.containsKey(cmd)) return null;
         if (command.length < 1) return "Error: No player specified.";
 
-        Player player = Bukkit.getPlayer(command[1]);
         String[] args = Arrays.copyOfRange(command, 2, command.length);
-        return this.map.get(cmd).apply(player, args);
+        return this.map.get(cmd).apply(command[1], args);
+    }
+
+    private Player p(String name) {
+        return Bukkit.getPlayer(name);
     }
 }

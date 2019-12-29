@@ -1,6 +1,6 @@
 main: yy.gourlitburo.yeyaknife.Main
 name: YeyaKnife
-version: 0.0.1
+version: 0.0.2
 api-version: 1.15
 author: Zack Guard
 description: A command line interface to the Spigot API.
